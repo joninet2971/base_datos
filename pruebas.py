@@ -15,28 +15,34 @@ def create_tables():
 
     # Tabla de Paises
     crear_paises = """
-    CREATE TABLE IF NOT EXISTS Paises (
-        pais_id INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS pais (
+        id INT AUTO_INCREMENT PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
-        codigo_iso VARCHAR(10)
     )
     """
 
     # Tabla de Localidades (debe estar después de crear la tabla Paises)
-    crear_localidades = """
-    CREATE TABLE IF NOT EXISTS Localidades (
-        localidad_id INT AUTO_INCREMENT PRIMARY KEY,
+    crear_provincia = """
+    CREATE TABLE IF NOT EXISTS provincia (
+        id INT AUTO_INCREMENT PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
-        provincia VARCHAR(100) NOT NULL,
         pais_id INT,
-        FOREIGN KEY (pais_id) REFERENCES Paises(pais_id) ON DELETE CASCADE
+        FOREIGN KEY (pais_id) REFERENCES pais(id) ON DELETE CASCADE
     )
     """
-
+    # Tabla de Localidades (debe estar después de crear la tabla Paises)
+    crear_ciudad = """
+    CREATE TABLE IF NOT EXISTS ciudad (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nombre VARCHAR(100) NOT NULL,
+        provincia_id INT,
+        FOREIGN KEY (provincia_id) REFERENCES provincia(id) ON DELETE CASCADE
+    )
+    """
     # Tabla de Clientes
     crear_clientes = """
-    CREATE TABLE IF NOT EXISTS Clientes (
-        cliente_id INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS clientes (
+        id INT AUTO_INCREMENT PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
         direccion VARCHAR(255),
         telefono VARCHAR(20),
@@ -47,8 +53,8 @@ def create_tables():
 
     # Tabla de Productos
     crear_productos = """
-    CREATE TABLE IF NOT EXISTS Productos (
-        producto_id INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS productos (
+        id INT AUTO_INCREMENT PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
         precio DECIMAL(10, 2) NOT NULL,
         stock INT NOT NULL
@@ -57,45 +63,45 @@ def create_tables():
 
     # Tabla de Facturas
     crear_facturas = """
-    CREATE TABLE IF NOT EXISTS Facturas (
-        factura_id INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS facturas (
+        id INT AUTO_INCREMENT PRIMARY KEY,
         cliente_id INT,
         fecha_emision DATETIME NOT NULL,
         total DECIMAL(10, 2) NOT NULL,
         estado ENUM('Activa', 'Anulada') DEFAULT 'Activa',
-        FOREIGN KEY (cliente_id) REFERENCES Clientes(cliente_id) ON DELETE CASCADE
+        FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE
     )
     """
 
     # Tabla de Detalle_Factura
     crear_detalle_factura = """
-    CREATE TABLE IF NOT EXISTS Detalle_Factura (
-        detalle_id INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS detalle_factura (
+        id INT AUTO_INCREMENT PRIMARY KEY,
         factura_id INT,
         producto_id INT,
         cantidad INT NOT NULL,
         subtotal DECIMAL(10, 2) NOT NULL,
-        FOREIGN KEY (factura_id) REFERENCES Facturas(factura_id) ON DELETE CASCADE,
-        FOREIGN KEY (producto_id) REFERENCES Productos(producto_id) ON DELETE CASCADE
+        FOREIGN KEY (factura_id) REFERENCES facturas(id) ON DELETE CASCADE,
+        FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE
     )
     """
 
     # Tabla de Pagos
     crear_pagos = """
-    CREATE TABLE IF NOT EXISTS Pagos (
-        pago_id INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS pagos (
+        id INT AUTO_INCREMENT PRIMARY KEY,
         factura_id INT,
         monto DECIMAL(10, 2) NOT NULL,
         fecha_pago DATETIME NOT NULL,
         metodo_pago VARCHAR(50) NOT NULL,
-        FOREIGN KEY (factura_id) REFERENCES Facturas(factura_id) ON DELETE CASCADE
+        FOREIGN KEY (factura_id) REFERENCES facturas(id) ON DELETE CASCADE
     )
     """
 
     # Tabla de Empleados
     crear_empleados = """
-    CREATE TABLE IF NOT EXISTS Empleados (
-        empleado_id INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS empleados (
+        id INT AUTO_INCREMENT PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
         cargo VARCHAR(50) NOT NULL,
         telefono VARCHAR(20),
@@ -105,12 +111,13 @@ def create_tables():
 
     # Crear las tablas en el orden correcto
     cursor.execute(crear_paises)
+    cursor.execute(crear_provincia)
+    cursor.execute(crear_ciudad)
     cursor.execute(crear_clientes)
     cursor.execute(crear_productos)
     cursor.execute(crear_facturas)
     cursor.execute(crear_detalle_factura)
     cursor.execute(crear_pagos)
-    cursor.execute(crear_localidades)  # Ahora se crea después de Paises
     cursor.execute(crear_empleados)
 
     # Confirmar cambios y cerrar conexión
