@@ -156,7 +156,7 @@ def agregar_localidad(localidad_nombre, provincia_nombre, pais_nombre):
 #agregar_localidad('santa clara', 'mardel plata', 'argentina')
 
 """Un script que muestro al cliente con mas ventas del año."""
-from datetime import datetime
+from datetime import datetime, timedelta
 def cliente_con_mas_ventas():
     connection = create_connection()
     cursor = connection.cursor()
@@ -181,7 +181,44 @@ def cliente_con_mas_ventas():
     return f"El cliente con más ventas es {nombre} con un total de {total_ventas} en el año {anio_actual}."
 
 # Ejemplo de uso
-print(cliente_con_mas_ventas())
+#print(cliente_con_mas_ventas())
+
+"""Un script que diga la cantidad de clientes masculinos y femeninos que compraron en el ultimo mes."""
+def contar_clientes_por_sexo():
+
+    connection = create_connection()
+    cursor = connection.cursor()
+
+    hoy = datetime.now()
+    hace_un_mes = hoy - timedelta(days=30)
+
+    sql = """
+    SELECT c.sexo, COUNT(DISTINCT c.id) AS cantidad
+    FROM facturas f
+    JOIN clientes c ON f.cliente_id = c.id
+    WHERE f.fecha_emision BETWEEN %s AND %s
+    GROUP BY c.sexo
+    """
+    cursor.execute(sql, (hace_un_mes, hoy))
+    resultados = cursor.fetchall()
+
+    # Cerrar la conexión
+    cursor.close()
+    connection.close()
+
+    # Preparar los resultados
+    conteo_sexos = {
+        'Masculino': 0,
+        'Femenino': 0
+    }
+
+    for sexo, cantidad in resultados:
+        conteo_sexos[sexo] = cantidad
+
+    return f"Clientes Masculinos: {conteo_sexos['Masculino']}, Clientes Femeninos: {conteo_sexos['Femenino']}"
+
+# Ejemplo de uso
+print(contar_clientes_por_sexo())
 
 
 
