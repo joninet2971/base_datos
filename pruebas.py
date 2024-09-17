@@ -17,7 +17,7 @@ def create_tables():
     crear_paises = """
     CREATE TABLE IF NOT EXISTS pais (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        nombre VARCHAR(100) NOT NULL,
+        nombre VARCHAR(100) NOT NULL
     )
     """
 
@@ -61,10 +61,10 @@ def create_tables():
     )
     """
 
-    # Tabla de Facturas
     crear_facturas = """
     CREATE TABLE IF NOT EXISTS facturas (
         id INT AUTO_INCREMENT PRIMARY KEY,
+        numero_factura VARCHAR(20) UNIQUE NOT NULL,
         cliente_id INT,
         fecha_emision DATETIME NOT NULL,
         total DECIMAL(10, 2) NOT NULL,

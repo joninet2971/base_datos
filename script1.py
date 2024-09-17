@@ -10,7 +10,7 @@ def insertar_factura():
     mycursor = mydb.cursor()
 
     insert_query = """
-    INSERT INTO factura (numero_factura, fecha, cliente_id, total)
+    INSERT INTO facturas (numero_factura, fecha_emision, cliente_id, total)
     VALUES (%s, %s, %s, %s)
     """
 
