@@ -217,8 +217,71 @@ def contar_clientes_por_sexo():
 
     return f"Clientes Masculinos: {conteo_sexos['Masculino']}, Clientes Femeninos: {conteo_sexos['Femenino']}"
 
-# Ejemplo de uso
-print(contar_clientes_por_sexo())
+#print(contar_clientes_por_sexo())
+
+"""Un scpit muestre las ventas por provincia (cantidad y suma)."""
+def ventas_por_provincia():
+    connection = create_connection()
+    cursor = connection.cursor()
+
+    query = """
+    SELECT 
+    provincia.nombre AS provincia,
+    COUNT(facturas.id) AS cantidad_ventas,
+    SUM(detalle_factura.subtotal) AS total_ventas
+    FROM facturas
+    JOIN empleados ON facturas.id = empleados.id  -- Relación facturas-empleados
+    JOIN persona ON empleados.persona_id = persona.id
+    JOIN ciudad ON persona.ciudad_id = ciudad.id
+    JOIN provincia ON ciudad.provincia_id = provincia.id
+    JOIN detalle_factura ON facturas.id = detalle_factura.factura_id
+    GROUP BY provincia.nombre;
+    """
+
+    cursor.execute(query)
+    resultados = cursor.fetchall()
+
+    for row in resultados:
+        print(f"Provincia: {row[0]}, Cantidad de Ventas: {row[1]}, Total Ventas: {row[2]}")
+
+    cursor.close()
+    connection.close()
+
+#ventas_por_provincia()
+
+"""Un script que diga la cantidad de clientes masculinos y femeninos que compraron en el ultimo mes."""
+def clientes_por_genero_ultimo_mes():
+    connection = create_connection()
+    cursor = connection.cursor()
+
+    query = """
+    SELECT 
+    clientes.sexo,
+    COUNT(DISTINCT clientes.id) AS cantidad_clientes
+    FROM facturas
+    JOIN clientes ON facturas.cliente_id = clientes.id
+    GROUP BY clientes.sexo;
+    """
+
+    cursor.execute(query)
+    resultados = cursor.fetchall()
+
+    for row in resultados:
+        if row[0] == 'Masculino':
+            genero = "Masculino"
+        elif row[0] == 'Femenino':
+            genero = "Femenino"
+        else:
+            genero = "Otro"
+        
+        print(f"Género: {genero}, Cantidad de Clientes: {row[1]}")
+
+    cursor.close()
+    connection.close()
+
+#clientes_por_genero_ultimo_mes()
+
+
 
 
 
