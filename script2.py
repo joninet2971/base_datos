@@ -1,4 +1,5 @@
 from conexion import create_connection
+from datetime import datetime, timedelta, date
 """-Un scrpt que obtenga el id Máximo O ultimo de la tabla factura"""
 def ultimo_id():
     mydb = create_connection()
@@ -156,7 +157,7 @@ def agregar_localidad(localidad_nombre, provincia_nombre, pais_nombre):
 #agregar_localidad('santa clara', 'mardel plata', 'argentina')
 
 """Un script que muestro al cliente con mas ventas del año."""
-from datetime import datetime, timedelta
+
 def cliente_con_mas_ventas():
     connection = create_connection()
     cursor = connection.cursor()
@@ -281,8 +282,79 @@ def clientes_por_genero_ultimo_mes():
 
 #clientes_por_genero_ultimo_mes()
 
+"""Un script que sirva para la insercion de un nuevo empleado ( tener en cuenta que se necesita que se le genere usuario)"""
+def insertar_empleado(nombre, apellido, cargo, telefono, email, ciudad_id, username, password, rol):
+    connection = create_connection()
+    cursor = connection.cursor()
 
+    insert_empleado_query = """
+    INSERT INTO empleados (cargo, telefono, email, persona_id)
+    VALUES (%s, %s, %s, (SELECT id FROM persona WHERE nombre = %s AND apellido = %s AND ciudad_id = %s));
+    """
+    cursor.execute(insert_empleado_query, (cargo, telefono, email, nombre, apellido, ciudad_id))
+    empleado_id = cursor.lastrowid  
 
+    insert_usuario_query = """
+    INSERT INTO usuarios (empleado_id, username, password, rol)
+    VALUES (%s, %s, %s, %s);
+    """
+    cursor.execute(insert_usuario_query, (empleado_id, username, password, rol))
 
+    # Confirmar los cambios
+    connection.commit()
+
+    print(f"Empleado y usuario creados exitosamente con ID de empleado: {empleado_id}")
+
+    cursor.close()
+    connection.close()
+
+#insertar_empleado("juan", "barreras", "vendedor", 21232367723, "jkdskds@dsjkdskj.com", 3, "jp", "lsdkdls", "vendedor")
+
+"""Un scrip que permita ingresar una compra completa."""
+def procesar_compra(proveedor_id, numero_compra, productos):
+    connection = create_connection()
+    cursor = connection.cursor()
+
+    fecha_compra = date.today()
+
+    query = "INSERT INTO compras (proveedor_id, fecha_compra, total, estado, numero_compra) VALUES (%s, %s, 0, 'Pendiente', %s)"
+    values = (proveedor_id, fecha_compra, numero_compra)
+    cursor.execute(query, values)
+    compra_id = cursor.lastrowid
+
+    total_compra = 0
+    
+    for producto in productos:
+        producto_id, cantidad, precio_unitario = producto
+        subtotal = cantidad * precio_unitario
+
+        query = "INSERT INTO detalle_compra (compra_id, producto_id, cantidad, precio_unitario, subtotal) VALUES (%s, %s, %s, %s, %s)"
+        values = (compra_id, producto_id, cantidad, precio_unitario, subtotal)
+        cursor.execute(query, values)
+
+        query = "UPDATE productos SET stock = stock + %s, costo = %s WHERE id = %s"
+        values = (cantidad, precio_unitario, producto_id)
+        cursor.execute(query, values)
+
+        total_compra += subtotal
+
+    query = "UPDATE compras SET total = %s, estado = 'Completada' WHERE id = %s"
+    values = (total_compra, compra_id)
+    cursor.execute(query, values)
+
+    connection.commit()
+    print(f"Compra registrada con éxito. ID de compra: {compra_id}")
+    
+    connection.close()
+
+proveedor_id = 2  
+numero_compra = '12345'
+productos = [
+    (1, 10, 5.50),  
+    (2, 5, 12.00),
+    (3, 3, 8.75),
+]
+
+#procesar_compra(proveedor_id, numero_compra, productos)
 
 
