@@ -6,6 +6,6 @@ def create_connection():
         host="143.198.156.171",
         user="BD2021",
         password="BD2021itec",
-        database="db_desplats2"
+        database="db_mas_30"
     )
     return connection

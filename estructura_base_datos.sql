@@ -305,3 +305,42 @@ CREATE TABLE `usuario` (
   CONSTRAINT `usuario_roles_FK` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Estructura de la tabla vista_articulos_no_vendidos_mes
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_articulos_no_vendidos_mes` AS select `p`.`id` AS `id_producto`,`p`.`nombre` AS `nombre_producto` from ((`productos` `p` left join `detalle_factura` `df` on(`p`.`id` = `df`.`id_producto`)) left join `factura` `f` on(`df`.`id_factura` = `f`.`id` and month(`f`.`fecha_factura`) = month(curdate()) and year(`f`.`fecha_factura`) = year(curdate()))) where `f`.`id` is null group by `p`.`id`;
+
+-- Estructura de la tabla vista_bono_fin_anio
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_bono_fin_anio` AS select `e`.`id` AS `id_empleado`,`p`.`nombre` AS `nombre_empleado`,`s`.`nombre` AS `sexo_empleado`,`c`.`nombre` AS `cargo`,sum(`df`.`cantidad` * `df`.`precio_unitario`) AS `total_ventas`,case when `c`.`nombre` = 'Vendedor' and sum(`df`.`cantidad` * `df`.`precio_unitario`) > 10000 then 2000 when `c`.`nombre` <> 'Vendedor' then 1000 else 0 end AS `bono` from (((((`empleado` `e` join `persona` `p` on(`e`.`id_persona` = `p`.`id`)) join `cargos` `c` on(`e`.`id_cargo` = `c`.`id`)) join `sexo` `s` on(`p`.`id_sexo` = `s`.`id`)) left join `factura` `f` on(`e`.`id` = `f`.`id_empleado` and `f`.`activo` = 1)) left join `detalle_factura` `df` on(`f`.`id` = `df`.`id_factura`)) group by `e`.`id`,`p`.`nombre`,`s`.`nombre`,`c`.`nombre` having `bono` > 0;
+
+-- Estructura de la tabla vista_cantidad_clientes_por_condicion_fiscal
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_cantidad_clientes_por_condicion_fiscal` AS select `cf`.`id` AS `condicion_fiscal_id`,`cf`.`nombre` AS `condicion_fiscal_nombre`,count(`c`.`id`) AS `cantidad_clientes` from (`cliente` `c` join `condicion_fiscal` `cf` on(`c`.`id_condicion_fiscal` = `cf`.`id`)) group by `cf`.`id`,`cf`.`nombre` order by `cf`.`nombre`;
+
+-- Estructura de la tabla vista_cantidad_productos_por_unidad_y_peso
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_cantidad_productos_por_unidad_y_peso` AS select `um`.`nombre` AS `unidad_med`,coalesce(count(`p`.`id`),0) AS `cantidad_productos` from (`unidad_med` `um` left join `productos` `p` on(`p`.`id_unidad_medida` = `um`.`id`)) where `um`.`nombre` = 'Unidades' group by `um`.`nombre`;
+
+-- Estructura de la tabla vista_clientes_activos
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_clientes_activos` AS select `c`.`id` AS `id_cliente`,`p`.`nombre` AS `nombre_cliente`,`p`.`apellido` AS `apellido_cliente`,`c`.`fecha_alta` AS `fecha_alta`,`c`.`observaciones` AS `observaciones` from (`cliente` `c` join `persona` `p` on(`c`.`id_persona` = `p`.`id`)) where `c`.`activo` = 1;
+
+-- Estructura de la tabla vista_empleados_usuarios
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_empleados_usuarios` AS select `e`.`id` AS `id_empleado`,`p`.`nombre` AS `nombre_empleado`,`p`.`apellido` AS `apellido_empleado`,`u`.`nombre` AS `usuario_login` from ((`empleado` `e` join `persona` `p` on(`e`.`id_persona` = `p`.`id`)) join `usuario` `u` on(`p`.`id_usuario` = `u`.`id`));
+
+-- Estructura de la tabla vista_ganancia_mensual_producto
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_ganancia_mensual_producto` AS select `p`.`id` AS `id_producto`,`p`.`nombre` AS `nombre_producto`,date_format(`f`.`fecha_factura`,'%Y-%m') AS `mes_anio`,sum(`df`.`cantidad` * `df`.`precio_unitario`) AS `total_venta`,sum(`dc`.`cantidad` * `dc`.`precio_unitario`) AS `total_costo`,sum(`df`.`cantidad` * `df`.`precio_unitario`) - sum(`dc`.`cantidad` * `dc`.`precio_unitario`) AS `ganancia_mensual` from ((((`productos` `p` join `detalle_factura` `df` on(`df`.`id_producto` = `p`.`id`)) join `factura` `f` on(`df`.`id_factura` = `f`.`id`)) join `detalle_compra` `dc` on(`dc`.`id_producto` = `p`.`id`)) join `compra` `c` on(`dc`.`id_compra` = `c`.`id`)) where `f`.`activo` = 1 group by `p`.`id`,date_format(`f`.`fecha_factura`,'%Y-%m');
+
+-- Estructura de la tabla vista_localidades_argentina
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_localidades_argentina` AS select `l`.`id` AS `id`,`l`.`nombre` AS `nombre` from ((`localidad` `l` join `provincia` `pr` on(`l`.`id_provincia` = `pr`.`id`)) join `pais` `p` on(`pr`.`id_pais` = `p`.`id`)) where `p`.`nombre` = 'Argentina';
+
+-- Estructura de la tabla vista_mayor_venta_mes
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_mayor_venta_mes` AS select year(`f`.`fecha_factura`) AS `anio`,month(`f`.`fecha_factura`) AS `mes`,max(`f`.`total`) AS `mayor_venta` from `factura` `f` where `f`.`activo` <> '0' group by year(`f`.`fecha_factura`),month(`f`.`fecha_factura`) order by year(`f`.`fecha_factura`),month(`f`.`fecha_factura`);
+
+-- Estructura de la tabla vista_menor_venta_mes
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_menor_venta_mes` AS select year(`f`.`fecha_factura`) AS `anio`,month(`f`.`fecha_factura`) AS `mes`,min(`f`.`total`) AS `menor_venta` from `factura` `f` where `f`.`activo` <> '0' group by year(`f`.`fecha_factura`),month(`f`.`fecha_factura`) order by year(`f`.`fecha_factura`),month(`f`.`fecha_factura`);
+
+-- Estructura de la tabla vista_productos_mas_vendidos
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_productos_mas_vendidos` AS select `p`.`id` AS `id_producto`,`p`.`nombre` AS `nombre_producto`,sum(`df`.`cantidad`) AS `total_vendido` from ((`productos` `p` join `detalle_factura` `df` on(`p`.`id` = `df`.`id_producto`)) join `factura` `f` on(`df`.`id_factura` = `f`.`id`)) where `f`.`activo` = 1 group by `p`.`id` order by sum(`df`.`cantidad`) desc;
+
+-- Estructura de la tabla vista_resumen_ventas_mensuales
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_resumen_ventas_mensuales` AS select year(`f`.`fecha_factura`) AS `anio`,month(`f`.`fecha_factura`) AS `mes`,sum(`f`.`total`) AS `total_ventas` from `factura` `f` where `f`.`activo` <> '0' group by year(`f`.`fecha_factura`),month(`f`.`fecha_factura`) order by year(`f`.`fecha_factura`),month(`f`.`fecha_factura`);
+
+-- Estructura de la tabla vista_sucursal_mas_ventas
+CREATE ALGORITHM=UNDEFINED DEFINER=`BD2021`@`%` SQL SECURITY DEFINER VIEW `vista_sucursal_mas_ventas` AS select `s`.`id` AS `id_sucursal`,`s`.`nombre` AS `nombre_sucursal`,count(`f`.`id`) AS `cantidad_ventas`,sum(`f`.`total`) AS `total_ventas` from ((`factura` `f` join `empleado` `e` on(`f`.`id_empleado` = `e`.`id`)) join `sucursales` `s` on(`e`.`id_sucursal` = `s`.`id`)) where `f`.`activo` <> 0 group by `s`.`id`,`s`.`nombre` order by sum(`f`.`total`) desc limit 1;
+
