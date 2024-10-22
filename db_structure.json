@@ -1,0 +1,1586 @@
+{
+    "arancel": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_vencimiento",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_emision",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "observaciones",
+                "Type": "varchar(200)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "observaciones",
+                "Extra": ""
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "carrera": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "duracion",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "observaciones",
+                "Type": "varchar(200)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "observaciones",
+                "Extra": ""
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "ciudad": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "provincia_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "provincia_id",
+                "referenced_table": "provincia",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "condicion": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "correlatividades": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre_materia_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "correlativa_materia_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "nombre_materia_id",
+                "referenced_table": "materia",
+                "referenced_column": "id"
+            },
+            {
+                "column": "correlativa_materia_id",
+                "referenced_table": "materia",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "curso": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "observaciones",
+                "Type": "varchar(200)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "observaciones",
+                "Extra": ""
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "curso_periodo": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "curso_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_inicio",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_fin",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "curso_id",
+                "referenced_table": "curso",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "detalle_academico_carrera": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "estudiante_materia_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "tipo_evaluacion_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "nota",
+                "Type": "decimal(2,1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_carga_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_carga",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "current_timestamp()",
+                "Extra": "on update current_timestamp()"
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "usuario_carga_id",
+                "referenced_table": "usuario",
+                "referenced_column": "id"
+            },
+            {
+                "column": "tipo_evaluacion_id",
+                "referenced_table": "tipo_evaluacion",
+                "referenced_column": "id"
+            },
+            {
+                "column": "estudiante_materia_id",
+                "referenced_table": "estudiante_materia",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "detalle_academico_curso": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nota",
+                "Type": "decimal(2,1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "estudiante_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "tipo_evaluacion_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_carga_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_carga",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "current_timestamp()",
+                "Extra": "on update current_timestamp()"
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "estudiante_id",
+                "referenced_table": "estudiante",
+                "referenced_column": "id"
+            },
+            {
+                "column": "usuario_carga_id",
+                "referenced_table": "usuario",
+                "referenced_column": "id"
+            },
+            {
+                "column": "tipo_evaluacion_id",
+                "referenced_table": "tipo_evaluacion",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "detalle_arancel_estudiante": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "arancel_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "estudiante_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "estado_pago_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "monto",
+                "Type": "decimal(7,2)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "descuento",
+                "Type": "decimal(7,2)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "multa_mora",
+                "Type": "decimal(7,2)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_carga_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_carga",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "current_timestamp()",
+                "Extra": "on update current_timestamp()"
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "arancel_id",
+                "referenced_table": "arancel",
+                "referenced_column": "id"
+            },
+            {
+                "column": "estudiante_id",
+                "referenced_table": "estudiante",
+                "referenced_column": "id"
+            },
+            {
+                "column": "usuario_carga_id",
+                "referenced_table": "usuario",
+                "referenced_column": "id"
+            },
+            {
+                "column": "estado_pago_id",
+                "referenced_table": "estado_pago",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "detalle_condicion_estudiante": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "estudiante_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "condicion_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "observaciones",
+                "Type": "varchar(200)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "observaciones",
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_carga_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_carga",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "current_timestamp()",
+                "Extra": "on update current_timestamp()"
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "condicion_id",
+                "referenced_table": "condicion",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "empleado": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "persona_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "tipo_empleado_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_carga_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_carga",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "current_timestamp()",
+                "Extra": "on update current_timestamp()"
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_ingreso",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "persona_id",
+                "referenced_table": "persona",
+                "referenced_column": "id"
+            },
+            {
+                "column": "usuario_id",
+                "referenced_table": "usuario",
+                "referenced_column": "id"
+            },
+            {
+                "column": "usuario_carga_id",
+                "referenced_table": "usuario",
+                "referenced_column": "id"
+            },
+            {
+                "column": "tipo_empleado_id",
+                "referenced_table": "tipo_empleado",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "estado_pago": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "estudiante": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "persona_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_carga_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "matricula_numero",
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_ingreso",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_carga",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "0000-00-00 00:00:00",
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "persona_id",
+                "referenced_table": "persona",
+                "referenced_column": "id"
+            },
+            {
+                "column": "usuario_carga_id",
+                "referenced_table": "usuario",
+                "referenced_column": "id"
+            },
+            {
+                "column": "usuario_id",
+                "referenced_table": "usuario",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "estudiante_curso": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "estudiante_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "curso_periodo_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "estudiante_id",
+                "referenced_table": "estudiante",
+                "referenced_column": "id"
+            },
+            {
+                "column": "curso_periodo_id",
+                "referenced_table": "curso_periodo",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "estudiante_materia": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "estudiante_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "materia_periodo_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "carrera_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "inscripcion_materia",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "0",
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "estudiante_id",
+                "referenced_table": "estudiante",
+                "referenced_column": "id"
+            },
+            {
+                "column": "materia_periodo_id",
+                "referenced_table": "materia_periodo",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "inscripcion_examen": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "materia_estudiante_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_inscripcion",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "current_timestamp()",
+                "Extra": "on update current_timestamp()"
+            },
+            {
+                "Field": "fecha_examen",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "materia": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            },
+            {
+                "Field": "observaciones",
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "observacion",
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "materia_carrera": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "materia_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "carrera_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "materia_id",
+                "referenced_table": "materia",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "materia_periodo": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "materia_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_inicio",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_fin",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "pais": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "persona": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "apellido",
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_nacimiento",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "current_timestamp()",
+                "Extra": "on update current_timestamp()"
+            },
+            {
+                "Field": "documento_identidad",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "sexo_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "ciudad_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "email",
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "telefono",
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_carga_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_carga",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "0000-00-00 00:00:00",
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "sexo_id",
+                "referenced_table": "sexo",
+                "referenced_column": "id"
+            },
+            {
+                "column": "ciudad_id",
+                "referenced_table": "ciudad",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "profesor": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "persona_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "numero_legajo",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_ingreso",
+                "Type": "date",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "cbu",
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": "1",
+                "Extra": ""
+            },
+            {
+                "Field": "fecha_carga",
+                "Type": "timestamp",
+                "Null": "NO",
+                "Key": "",
+                "Default": "current_timestamp()",
+                "Extra": "on update current_timestamp()"
+            },
+            {
+                "Field": "usuario_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "usuario_carga_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "persona_id",
+                "referenced_table": "persona",
+                "referenced_column": "id"
+            },
+            {
+                "column": "usuario_id",
+                "referenced_table": "usuario",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "profesor_curso": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "profesor_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "curso_periodo_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "rol_docente_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "carga_horaria_mensual",
+                "Type": "decimal(3,2)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "profesor_id",
+                "referenced_table": "profesor",
+                "referenced_column": "id"
+            },
+            {
+                "column": "rol_docente_id",
+                "referenced_table": "rol_docente",
+                "referenced_column": "id"
+            },
+            {
+                "column": "curso_periodo_id",
+                "referenced_table": "curso_periodo",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "profesor_materia": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "profesor_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "materia_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "rol_docente_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "carga_horaria_mensual",
+                "Type": "decimal(3,2)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "activo",
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "profesor_id",
+                "referenced_table": "profesor",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "provincia": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "pais_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "pais_id",
+                "referenced_table": "pais",
+                "referenced_column": "id"
+            }
+        ]
+    },
+    "rol_docente": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "rol_usuario": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "sexo": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "tipo_empleado": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre_puesto",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "tipo_evaluacion": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "nombre",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": []
+    },
+    "usuario": {
+        "columns": [
+            {
+                "Field": "id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": null,
+                "Extra": "auto_increment"
+            },
+            {
+                "Field": "username",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "password",
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "persona_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            },
+            {
+                "Field": "rol_usuario_id",
+                "Type": "int(10)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": null,
+                "Extra": ""
+            }
+        ],
+        "relations": [
+            {
+                "column": "persona_id",
+                "referenced_table": "persona",
+                "referenced_column": "id"
+            },
+            {
+                "column": "rol_usuario_id",
+                "referenced_table": "rol_usuario",
+                "referenced_column": "id"
+            }
+        ]
+    }
+}

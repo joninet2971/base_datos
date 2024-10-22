@@ -1,43 +1,63 @@
-
 import mysql.connector
-from mysql.connector import Error
+import json
 
-def create_connection():
-    """Establish a connection to the MySQL database."""
-    try:
-        connection = mysql.connector.connect(
-            host="143.198.156.171",
-            user="BD2021",
-            password="BD2021itec",
-            database="db_desplats2"
-        )
-        if connection.is_connected():
-            print("Connection successful.")
-        return connection
-    except Error as e:
-        print(f"Error while connecting to MySQL: {e}")
-        return None
+# Conectar a la base de datos
+db_config = {
+    'host': "143.198.156.171",
+    'user': "BD2021",
+    'password': "BD2021itec",
+    'database': "db_mas_30"
+}
 
-def rename_column(connection, table_name, old_column_name, new_column_name, column_type):
-    """Rename a column in the specified table."""
+def get_db_structure():
     try:
+        connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
-        # Generar la sentencia SQL para renombrar la columna
-        sql = f"ALTER TABLE {table_name} CHANGE COLUMN {old_column_name} {new_column_name} {column_type}"
-        cursor.execute(sql)
-        connection.commit()
-        print(f"Column `{old_column_name}` has been renamed to `{new_column_name}`.")
-    except Error as e:
-        print(f"Error while renaming the column: {e}")
-    finally:
-        cursor.close()
 
-def main():
-    connection = create_connection()
-    if connection:
-        # Especificar la tabla, el nombre antiguo de la columna, el nuevo nombre y su tipo
-        rename_column(connection, "factura", "numero_factura", "numero", "VARCHAR(255)")
-        connection.close()
+        # Obtener todas las tablas
+        cursor.execute("SHOW TABLES")
+        tables = cursor.fetchall()
+
+        db_structure = {}
+
+        for (table_name,) in tables:
+            # Obtener columnas de cada tabla
+            cursor.execute(f"DESCRIBE {table_name}")
+            columns = cursor.fetchall()
+
+            # Obtener relaciones (claves foráneas)
+            cursor.execute(f"""
+                SELECT 
+                    COLUMN_NAME, 
+                    REFERENCED_TABLE_NAME, 
+                    REFERENCED_COLUMN_NAME 
+                FROM 
+                    INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                WHERE 
+                    TABLE_NAME = '{table_name}' 
+                    AND CONSTRAINT_SCHEMA = '{db_config['database']}' 
+                    AND REFERENCED_TABLE_NAME IS NOT NULL;
+            """)
+            relations = cursor.fetchall()
+
+            db_structure[table_name] = {
+                'columns': [{'Field': col[0], 'Type': col[1], 'Null': col[2], 'Key': col[3], 'Default': col[4], 'Extra': col[5]} for col in columns],
+                'relations': [{'column': rel[0], 'referenced_table': rel[1], 'referenced_column': rel[2]} for rel in relations]
+            }
+
+        # Exportar estructura a formato JSON
+        with open('db_structure.json', 'w') as json_file:
+            json.dump(db_structure, json_file, indent=4)
+
+        print("La estructura de la base de datos ha sido exportada a 'db_structure.json'.")
+
+    except mysql.connector.Error as error:
+        print(f"Error al conectarse a la base de datos: {error}")
+    
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
 
 if __name__ == "__main__":
-    main()
+    get_db_structure()
